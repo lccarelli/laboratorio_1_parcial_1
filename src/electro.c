@@ -254,3 +254,4 @@ int listadoElectro(eElectro* list, int len){
 	return result;
 };
 
+

@@ -9,8 +9,7 @@
 #define ERROR -1
 
 
-void harcodearServicios(eServicio servicios[], int tam, int cantidad){
-	int cont = 0;
+void harcodearServicios(eServicio* list, int tam, int cantidad){
 	eServicio listaAux[]=
 	{
 			{20000, "GARANTIA", 250},
@@ -21,8 +20,7 @@ void harcodearServicios(eServicio servicios[], int tam, int cantidad){
 
 	if(cantidad <= tam && cantidad < 11){
 		for(int i=0; i<cantidad; i++){
-			servicios[i] = listaAux[i];
-			cont++;
+			list[i] = listaAux[i];
 		};
 	};
 };

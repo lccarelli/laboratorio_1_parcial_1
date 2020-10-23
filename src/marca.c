@@ -9,16 +9,18 @@
 #define ERROR -1
 
 void harcodearMarca(eMarca marcas[], int tam, int cantidad){
-	int cont = 0;
 	eMarca listaAux[]=
 	{
-			{1000, "Wirpool"},{1001, "Sony"},{1002, "Liliana"},{1003, "Gafa"},{1004, "Philips"}
+			{1000, "Wirpool"},
+			{1001, "Sony"},
+			{1002, "Liliana"},
+			{1003, "Gafa"},
+			{1004, "Philips"}
 	};
 
 	if(cantidad <= tam && cantidad < 11){
 		for(int i=0; i<cantidad; i++){
 			marcas[i] = listaAux[i];
-			cont++;
 		};
 	};
 };

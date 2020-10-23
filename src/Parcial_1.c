@@ -16,6 +16,8 @@
 #include "servicio.h"
 #include "electro.h"
 #include "reparacion.h"
+#include "cliente.h"
+#include "informes.h"
 
 #define SELECTION_1 1
 #define SELECTION_2 2
@@ -25,6 +27,7 @@
 #define SELECTION_6 6
 #define SELECTION_7 7
 #define SELECTION_8 8
+#define SELECTION_9 9
 #define TAM_ELECTRO 1000
 #define TAM_REPARACION 1000
 #define OK 0
@@ -40,9 +43,11 @@ int main(void) {
 	eReparacion Reparaciones[TAM_REPARACION];
 	eMarca marcas[5];
 	eServicio servicios[4];
+	eCliente clientes[5];
 
 	harcodearMarca(marcas, 5, 5);
-	harcodearServicios(servicios, 5, 5);
+	harcodearServicios(servicios, 4, 4);
+	harcodearCliente(clientes, 5, 5);
 
 	if (initElectro(electros, TAM_ELECTRO) == 0) {
 		printf("init electro\n");
@@ -68,7 +73,8 @@ int main(void) {
 				"\n\t6: LISTAR SERVICIOS "
 				"\n\t7: ALTA REPARACION "
 				"\n\t8: LISTAR REPARACION "
-				"\n\t9: 'Salir'\n",
+				"\n\t9: INFORMES (2PARTE PARCIAL) "
+				"\n\t10: 'Salir'\n",
 				"No es una opción válida \n", 1, 9, 2);
 
 		if (!answer) {
@@ -173,7 +179,7 @@ int main(void) {
 					auxIndexRep = findEmptyReparacion(Reparaciones, TAM_REPARACION);
 
 					if (auxIndexRep >= 0) {
-						addReparacion(Reparaciones, TAM_ELECTRO, &idRep, auxIndexRep);
+						addReparacion(Reparaciones, TAM_ELECTRO, &idRep, auxIndexRep, clientes, electros, TAM_ELECTRO);
 
 						printf("Quiere agregar una reparacion más?, ingrese -> (s)");
 						__fpurge(stdin);
@@ -195,14 +201,37 @@ int main(void) {
 				if(flagAddRep == OK){
 					printListReparacion(Reparaciones, TAM_REPARACION);
 				}else{
-					printf("NO hay reparaciones para mostrar");
+					printf("No hay reparaciones para mostrar");
+				};
+				break;
+			case SELECTION_9:
+				//LISTAR REPARACION
+
+				if(flagAddRep == OK && flagAddElectro == OK){
+
+					printf("1- Mostrar Electrodomésticos del año(nodelo) 2020\n");
+					mostrarElectroModelo(electros, 2020, TAM_ELECTRO);
+					printf("2- Mostrar Electrodomésticos de una marca seleccionada\n");
+					mostrarElectroMarcar(electros, TAM_ELECTRO);
+					printf("3- Mostrar todos las reparaciones efectuadas al Electrodoméstico seleccionado\n");
+					reparacionesPorElectro(Reparaciones, TAM_REPARACION);
+					printf("4- Listar los Electrodomésticos que no tuvieron reparaciones\n");
+					electroSinRep(Reparaciones, electros, TAM_ELECTRO, TAM_REPARACION);
+					printf("5- Informar importe total de las reparaciones realizadas a un Electrodoméstico seleccionado\n");
+					importeTotalReparacionesPorElectro(Reparaciones, TAM_REPARACION, electros, servicios, TAM_ELECTRO, 4);
+					printf("6- Mostrar el servicio más pedido\n");
+					servicioMasPedido(Reparaciones, TAM_REPARACION);
+					printf("7- Mostrar la recaudación en una fecha en particular\n");
+					recaudacionPorFecha(Reparaciones, TAM_REPARACION);
+				}else{
+					printf("No hay reparaciones para mostrar");
 				};
 				break;
 
 			}
 		};
 
-	} while (option != 9);
+	} while (option != 10);
 
 	printf("Saliste!");
 	return EXIT_SUCCESS;
